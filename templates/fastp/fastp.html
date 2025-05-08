@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<title>Full File Upload with Progress Bar</title>
+
+<style>
+    #progressBarFill {
+        width: 0%;
+        height: 25px;
+        background-color: #198754;
+        text-align: center;
+        line-height: 25px;
+        color: white;
+        transition: width 0.3s ease;
+    }
+    /* Toast positioning */
+    .toast-container {
+        position: fixed;
+        top: 5rem;
+        right: 2rem;
+        z-index: 1060;
+    }
+</style>
+
+<div class="container py-5" style="max-width: 600px;min-height:100%;">
+    <h1 class="mb-4 text-primary text-center">Upload FASTQ File</h1>
+
+    <form id="uploadForm" class="d-flex flex-column gap-3">
+        {% csrf_token %}
+        <input 
+            type="file" 
+            id="fileInput" 
+            name="file" 
+            class="form-control"
+        >
+        <button type="submit" class="btn btn-primary btn-lg">Upload</button>
+    </form>
+
+    <div id="progressBar" class="progress mt-4" style="height: 25px; display: none;">
+        <div id="progressBarFill" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar">0%</div>
+    </div>
+</div>
+
+<!-- Bootstrap Toast for notifications -->
+<div class="toast-container">
+    <div id="uploadToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" id="toastMessage">
+                <!-- Message will go here -->
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<script>
+function showToast(message, type='primary') {
+    // Set message and color
+    const toast = document.getElementById('uploadToast');
+    const toastMessage = document.getElementById('toastMessage');
+    toastMessage.textContent = message;
+
+    // Remove existing bg- classes
+    toast.className = 'toast align-items-center border-0';
+    toast.classList.add('text-bg-' + type);
+
+    // Bootstrap 5 toast
+    var bsToast = new bootstrap.Toast(toast, { delay: 4000 });
+    bsToast.show();
+}
+
+document.getElementById('uploadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const file = document.getElementById('fileInput').files[0];
+    if (!file) {
+        showToast("Please select a file to upload.", 'danger');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/fastp/upload/', true);
+
+    // Function to get CSRF token from cookie
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+    xhr.setRequestHeader('X-CSRFToken', csrftoken);
+
+    document.getElementById('progressBar').style.display = 'block';
+
+    xhr.upload.onprogress = function(event) {
+        if (event.lengthComputable) {
+            const percentComplete = Math.round((event.loaded / event.total) * 100);
+            const progressBarFill = document.getElementById('progressBarFill');
+            progressBarFill.style.width = percentComplete + '%';
+            progressBarFill.textContent = percentComplete + '%';
+        }
+    };
+
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            showToast("File uploaded successfully!", 'success');
+            const response = JSON.parse(xhr.responseText);
+            setTimeout(function() {
+                window.location.href = `/fastp/process/${response.file_id}/`;
+            }, 1500);
+        } else {
+            showToast("An error occurred during the upload. Please try again.", 'danger');
+        }
+    };
+
+    xhr.onerror = function() {
+        showToast("An error occurred during the upload. Please check your connection and try again.", 'danger');
+    };
+
+    xhr.send(formData);
+});
+</script>
+
+<!-- Bootstrap JS (make sure it's included in your base.html or add here if needed) -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
+
+{% endblock %}

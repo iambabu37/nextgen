@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    body {
+        background-color: #f8fafc;
+    }
+    .about-card {
+        background: rgba(255,255,255,0.95);
+        border-radius: 1.5rem;
+        box-shadow: 0 4px 32px 0 rgba(30,64,175,0.07);
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+    .about-header {
+        background: linear-gradient(90deg, #e3f0ff 0%, #f8fafc 100%);
+        border-radius: 1.5rem 1.5rem 0 0;
+        padding: 2.5rem 2rem 1.5rem 2rem;
+        text-align: center;
+    }
+    .about-title {
+        color: #2563eb;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        font-size: 2.5rem;
+    }
+    .about-lead {
+        color: #475569;
+        font-size: 1.25rem;
+        margin-top: 1rem;
+        margin-bottom: 0;
+    }
+    .about-section-title {
+        color: #0ea5e9;
+        margin-top: 2rem;
+        font-size: 1.25rem;
+        font-weight: 700;
+        text-align: center;
+    }
+    .about-list {
+        list-style: none;
+        padding-left: 0;
+        margin-top: 1.2rem;
+        margin-bottom: 1.2rem;
+        text-align: center;
+    }
+    .about-list li {
+        margin-bottom: 0.75rem;
+        font-size: 1.08rem;
+        color: #334155;
+        position: relative;
+        padding-left: 1.5em;
+    }
+    .about-list li::before {
+        content: "✔";
+        color: #38bdf8;
+        position: absolute;
+        left: 0;
+        font-size: 1rem;
+    }
+    .about-footer {
+        text-align: center;
+        margin-top: 2rem;
+        font-size: 1.07rem;
+        color: #2563eb;
+    }
+    @media (max-width: 576px) {
+        .about-title { font-size: 1.7rem; }
+        .about-header { padding: 1.5rem 1rem 1rem 1rem; }
+        .about-card { margin-top: 1rem; margin-bottom: 1rem; }
+    }
+</style>
+<div class="container d-flex flex-column align-items-center justify-content-center min-vh-100">
+    <div class="col-lg-8 col-md-10 col-12">
+        <div class="card about-card border-0 shadow-sm">
+            <div class="about-header">
+                <h1 class="about-title mb-3">About This NGS Analysis Platform</h1>
+                <p class="lead about-lead">
+                    Welcome to <strong>NGS Analysis by Babukanthsamy</strong> - your one-stop solution for streamlined, reproducible, and customizable Next-Generation Sequencing (NGS) workflows.
+                </p>
+            </div>
+            <div class="card-body px-4 pb-4 d-flex flex-column align-items-center">
+                <div class="about-section-title">Why This Platform?</div>
+                <ul class="about-list">
+                    <li>Run your own NGS pipelines with ease, directly from your browser.</li>
+                    <li>Choose from a curated set of industry-standard tools and custom scripts.</li>
+                    <li>Track progress, view interactive reports, and download results securely.</li>
+                    <li>Designed for both beginners and experienced bioinformaticians.</li>
+                </ul>
+                <div class="about-section-title">Key Features</div>
+                <ul class="about-list">
+                    <li>FASTQ quality control, trimming, and filtering</li>
+                    <li>Read alignment and variant calling</li>
+                    <li>Interactive quality reports and visualizations</li>
+                    <li>Batch processing and workflow automation</li>
+                    <li>Secure file management</li>
+                </ul>
+                <div class="about-footer">
+                    <strong>Developed and maintained by Babukanthsamy.</strong><br>
+                    For feedback and support, please <a href="mailto:babukanthsamy@example.com" class="text-decoration-underline text-primary">contact us</a>.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

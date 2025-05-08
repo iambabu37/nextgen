@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h1 class="card-title text-success mb-3">Help &amp; FAQ</h1>
+                    <p class="lead">Get the most out of your NGS analyses. If you have questions, you’ll likely find answers below!</p>
+                    <hr>
+                    <h5 class="mt-4">How do I upload my sequencing data?</h5>
+                    <p>
+                        Go to the <strong>Upload</strong> page, select your FASTQ file(s), and click "Upload". You’ll see a progress bar indicating upload status.
+                    </p>
+                    <h5 class="mt-4">What tools and workflows are available?</h5>
+                    <p>
+                        This platform supports popular NGS tools such as FastQC, Trimmomatic, BWA, GATK, and more. You can select specific tools or run a full workflow.
+                    </p>
+                    <h5 class="mt-4">How do I view and download my results?</h5>
+                    <p>
+                        After processing, results will be displayed on the results page. Interactive reports can be viewed in your browser, and all output files are available for download.
+                    </p>
+                    <h5 class="mt-4">Is my data secure?</h5>
+                    <p>
+                        Yes. Your data is stored securely and only accessible to you. Files are automatically deleted after a set retention period.
+                    </p>
+                    <h5 class="mt-4">Need more help?</h5>
+                    <p class="mb-4">
+                        Please <a href="mailto:babukanthsamy@example.com" class="text-decoration-underline text-success">contact support</a> for further assistance.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
